@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d2cccc"
+    tools:context="com.example.muneebahmad.edwbqfgb.Main2Activity">
+
+    <RelativeLayout
+        android:id="@+id/storebanner"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="#FFFFFF">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_store_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/target_logo" />
+
+        <TextView
+        android:id="@+id/tv_store_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/civ_store_logo"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/civ_store_logo"
+        android:layout_toRightOf="@+id/civ_store_logo"
+        android:text="Store Name"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+        <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_store_name"
+        android:layout_alignStart="@+id/tv_store_name"
+        android:layout_below="@+id/tv_store_name"
+        android:layout_marginTop="3dp"
+        android:text="Address" />
+
+        <RatingBar
+        android:id="@+id/rb_store_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/civ_store_logo"
+        android:layout_below="@+id/tv_address"
+        android:layout_marginLeft="105dp"
+        android:layout_marginTop="0dp"
+        android:isIndicator="true"
+        android:scaleX=".8"
+        android:scaleY=".8"
+        android:transformPivotX="15dp"
+        android:transformPivotY="05dp" />
+
+
+        <TextView
+        android:id="@+id/tv_start_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rb_store_rating"
+        android:layout_marginLeft="20dp"
+        android:text="Start Time:" />
+
+        <TextView
+        android:id="@+id/tv_end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_endtime_value"
+        android:layout_alignBottom="@+id/tv_endtime_value"
+        android:layout_marginLeft="150dp"
+        android:text="End Time:" />
+
+        <TextView
+        android:id="@+id/tv_delivery_fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rb_store_rating"
+        android:layout_marginLeft="280dp"
+        android:text="Delivery Fees" />
+
+        <TextView
+        android:id="@+id/tv_starttime_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rb_store_rating"
+        android:layout_marginLeft="90dp"
+        android:text="10AM"/>
+
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rb_store_rating"
+        android:layout_marginLeft="215dp"
+        android:id="@+id/tv_endtime_value"
+        android:text="10PM"/>
+
+        <TextView
+        android:id="@+id/tv_fee_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rb_store_rating"
+        android:layout_marginLeft="360dp"
+        android:text="500"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/storebanner">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"/>
+    </RelativeLayout>
+
+</RelativeLayout>
