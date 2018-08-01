@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_product_image"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/shopping_cart"/>
+
+    <TextView
+        android:id="@+id/tv_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/iv_product_image"
+        android:text="Name"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"/>
+    
+    <TextView
+        android:id="@+id/tv_product_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:layout_toRightOf="@+id/iv_product_image"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/tv_product_name"/>
+    
+    <TextView
+        android:id="@+id/tv_product_prize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PKR"
+        android:layout_toRightOf="@id/iv_product_image"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/tv_product_category"
+        android:textColor="@color/colorPrimary"/>
+
+</RelativeLayout>
