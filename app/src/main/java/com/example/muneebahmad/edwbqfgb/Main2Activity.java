@@ -1,10 +1,14 @@
 package com.example.muneebahmad.edwbqfgb;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,12 +35,40 @@ public class Main2Activity extends AppCompatActivity {
     ArrayList<Product> Item =new ArrayList<>();
     ProductAdapter myAdapter;
     ProgressDialog loading;
+    TextView store,addr,starttime,endtime,deliveryfee;
+    RatingBar rating;
+    ImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         listView = findViewById(R.id.lv_product_list);
+
+        Intent intent = getIntent();
+        String store_name = intent.getStringExtra("store_name");
+        String address = intent.getStringExtra("store_address");
+        int store_rating = Integer.parseInt(intent.getStringExtra("store_rating"));
+        String start_time = intent.getStringExtra("start_time");
+        String end_time = intent.getStringExtra("end_time");
+        String delivery_fee = intent.getStringExtra("delivery_fee");
+
+        store = findViewById(R.id.tv_store_name);
+        addr = findViewById(R.id.tv_address);
+        starttime = findViewById(R.id.tv_starttime_value);
+        endtime = findViewById(R.id.tv_endtime_value);
+        deliveryfee = findViewById(R.id.tv_fee_value);
+        rating = findViewById(R.id.rb_store_rating);
+        img = findViewById(R.id.civ_store_logo);
+
+        store.setText(store_name);
+        addr.setText(address);
+        rating.setRating(store_rating);
+        starttime.setText(start_time);
+        endtime.setText(end_time);
+        deliveryfee.setText(delivery_fee);
+
+
         getitems();
     }
 
