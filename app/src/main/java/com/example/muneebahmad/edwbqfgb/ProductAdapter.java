@@ -45,16 +45,17 @@ public class ProductAdapter extends ArrayAdapter {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View v = layoutInflater.inflate(resource,parent,false);
         ImageView imageView = v.findViewById(R.id.iv_product_image);
-        TextView name = v.findViewById(R.id.tv_);
+        TextView name = v.findViewById(R.id.tv_product_name);
+        TextView category = v.findViewById(R.id.tv_product_category);
+        TextView prize = v.findViewById(R.id.tv_product_prize);
 
         Product product = item.get(position);
 
         imageView.setImageResource(R.drawable.target_logo);
         name.setText(product.getProduct_name());
-        type.setText(product.getProduct_type());
+        category.setText(product.getProduct_type());
         prize.setText(product.getProduct_prize());
 
         return v;
-
     }
 }
