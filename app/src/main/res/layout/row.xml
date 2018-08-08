@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/R1"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_store_logo"
@@ -19,12 +19,10 @@
         android:id="@+id/tv_store_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/civ_store_logo"
-        android:layout_marginLeft="22dp"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/civ_store_logo"
         android:layout_toRightOf="@+id/civ_store_logo"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/background"
         android:text="Store Name"
         android:textColor="#000000"
         android:textSize="20sp" />
@@ -42,19 +40,21 @@
     <RatingBar
         android:id="@+id/rb_store_rating"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignBottom="@+id/civ_store_logo"
         android:layout_below="@+id/tv_address"
         android:layout_marginLeft="105dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="05dp"
         android:isIndicator="true"
-        android:scaleX=".8"
-        android:scaleY=".8"
+        android:scaleX=".7"
+        android:scaleY=".7"
         android:transformPivotX="15dp"
-        android:transformPivotY="05dp" />
+        android:transformPivotY="5dp"
+    />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginTop="05dp"
         android:layout_below="@+id/rb_store_rating"
         android:src="@mipmap/cart_logo"
         android:id="@+id/iv_store_pic" />
@@ -65,39 +65,48 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_store_pic"
         android:layout_marginLeft="20dp"
-        android:text="Start Time:" />
+        android:textColor="@color/colorPrimary"
+        android:text="Delivery Timing:" />
 
     <TextView
         android:id="@+id/tv_end_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tv_endtime_value"
-        android:layout_alignBottom="@+id/tv_endtime_value"
-        android:layout_marginLeft="150dp"
-        android:text="End Time:" />
+        android:layout_below="@id/iv_store_pic"
+        android:layout_toRightOf="@id/tv_starttime_value"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/colorPrimary"
+        android:text="to" />
 
     <TextView
         android:id="@+id/tv_delivery_fee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_store_pic"
-        android:layout_marginLeft="280dp"
+        android:layout_toRightOf="@+id/tv_endtime_value"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/colorPrimary"
         android:text="Delivery Fees:" />
 
     <TextView
         android:id="@+id/tv_starttime_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_below="@+id/iv_store_pic"
-        android:layout_marginLeft="90dp"
+        android:layout_toRightOf="@+id/tv_start_time"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/colorPrimary"
         android:text="10AM"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_store_pic"
-        android:layout_marginLeft="215dp"
+        android:layout_toRightOf="@+id/tv_end_time"
+        android:layout_marginLeft="5dp"
         android:id="@+id/tv_endtime_value"
+        android:textColor="@color/colorPrimary"
         android:text="10PM"/>
 
     <TextView
@@ -105,7 +114,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_store_pic"
-        android:layout_marginLeft="370dp"
-        android:text="500"/>
+        android:layout_toRightOf="@id/tv_delivery_fee"
+        android:layout_marginLeft="10dp"
+        android:text="PKR 500"
+        android:textColor="@color/colorPrimary"/>
 
 </RelativeLayout>

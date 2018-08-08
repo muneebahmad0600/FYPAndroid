@@ -5,7 +5,7 @@ package com.example.muneebahmad.edwbqfgb;
  */
 
 public class Product {
-    private int product_id,produc_barcode,product_prize;
+    private int product_id,produc_barcode,product_price;
     private String product_name,product_size,product_type,product_color;
 
     public int getProduct_id() {return product_id;}
@@ -16,9 +16,9 @@ public class Product {
 
     public void setProduc_barcode(int produc_barcode) {this.produc_barcode = produc_barcode;}
 
-    public int getProduct_prize() {return product_prize;}
+    public int getProduct_price() {return product_price;}
 
-    public void setProduct_prize(int product_prize) {this.product_prize = product_prize;}
+    public void setProduct_price(int product_prize) {this.product_price = product_prize;}
 
     public String getProduct_name() {return product_name;}
 

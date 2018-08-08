@@ -4,11 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:clipToPadding="false"
     tools:context="com.example.muneebahmad.edwbqfgb.StoreList">
 
     <ListView
         android:id="@+id/lv_store_list"
+        tools:listitem="@layout/row"
         android:layout_width="match_parent"
+        android:elevation="30dp"
         android:layout_height="match_parent" />
 
 </RelativeLayout>

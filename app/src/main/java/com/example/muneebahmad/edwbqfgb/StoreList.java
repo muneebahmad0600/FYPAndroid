@@ -45,9 +45,7 @@ public class StoreList extends AppCompatActivity
     public void getdata()
     {
         String Url = "http://localhost:3000/provider/list.json";
-
         loading = ProgressDialog.show(StoreList.this, "Please wait...", "Getting Data From Server ...", false, false);
-
         StringRequest request = new StringRequest(Request.Method.GET,Url, new Response.Listener<String>()
         {
 
@@ -64,6 +62,7 @@ public class StoreList extends AppCompatActivity
 
                         Store store = new Store();
 
+                        store.setStore_id(jsonObject.optInt("id"));
                         store.setStore_name(jsonObject.optString("provider_name", ""));
                         store.setAddress(jsonObject.optString("location", ""));
                         store.setRating(jsonObject.optInt("provider_ranking"));
@@ -73,11 +72,8 @@ public class StoreList extends AppCompatActivity
 
                         shop.add(store);
                     }
-
-
                     myAdapter = new MyAdapter(StoreList.this, R.layout.row, shop);
                     listView.setAdapter((ListAdapter) myAdapter);
-
 
                 } catch (JSONException e)
                 {

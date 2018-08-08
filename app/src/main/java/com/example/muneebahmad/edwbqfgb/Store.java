@@ -9,6 +9,7 @@ public class Store {
     private String store_name;
     private String address;
     private int rating;
+    private int store_id;
     private String store_pic;
     private String delivery_start_time;
     private String delivery_end_time;
@@ -55,4 +56,8 @@ public class Store {
     public void setRating(int rating) {
         this.rating = rating;
     }
+
+    public int getStore_id() { return store_id; }
+
+    public void setStore_id(int store_id) { this.store_id = store_id; }
 }

@@ -32,8 +32,6 @@ public class MyAdapter extends ArrayAdapter
     LayoutInflater layoutInflater;
 
     //contructor
-
-
     public MyAdapter(@NonNull Context context, int resource, ArrayList<Store> shop) {
         super(context, resource);
 
@@ -43,10 +41,8 @@ public class MyAdapter extends ArrayAdapter
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-
     @Override
     public int getCount() {return shop.size();}
-
 
     @NonNull
     @Override
@@ -60,7 +56,7 @@ public class MyAdapter extends ArrayAdapter
         pic = v.findViewById(R.id.iv_store_pic);
         start_time = v.findViewById(R.id.tv_starttime_value);
         end_time = v.findViewById(R.id.tv_endtime_value);
-        delivery_fee = v.findViewById(R.id.tv_delivery_fee);
+        delivery_fee = v.findViewById(R.id.tv_fee_value);
 
         Store store = shop.get(position);
 
@@ -76,18 +72,30 @@ public class MyAdapter extends ArrayAdapter
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String store_id,store_name,store_addr,delivery_start,delivery_end,fee,store_rating;
+//                Toast.makeText(context,"position"+position,Toast.LENGTH_SHORT).show();
+                Store store = shop.get(position);
+                store_id = String.valueOf(store.getStore_id());
+                store_name = store.getStore_name();
+                store_addr = store.getAddress();
+                delivery_start = store.getDelivery_start_time();
+                delivery_end = store.getDelivery_end_time();
+                fee = store.getDelivery_fee();
+                store_rating = String.valueOf(store.getRating());
+
                 Intent intent = new Intent(context,Main2Activity.class);
-                intent.putExtra("store_name",name.toString());
-                intent.putExtra("store_address",addr.toString());
-                intent.putExtra("store_rating",rating.getRating());
-                intent.putExtra("start_time",start_time.toString());
-                intent.putExtra("end_time",end_time.toString());
-                intent.putExtra("delivery_fee",delivery_fee.toString());
+                intent.putExtra("store_id",store_id);
+                intent.putExtra("store_name",store_name);
+                intent.putExtra("store_address",store_addr);
+                intent.putExtra("store_rating",store_rating);
+                intent.putExtra("start_time",delivery_start);
+                intent.putExtra("end_time",delivery_end);
+                intent.putExtra("delivery_fee",fee);
 
                 context.startActivity(intent);
             }
         });
         return v;
-
     }
 }

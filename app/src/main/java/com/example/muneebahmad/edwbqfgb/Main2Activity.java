@@ -1,6 +1,7 @@
 package com.example.muneebahmad.edwbqfgb;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,12 +33,13 @@ import java.util.Map;
 public class Main2Activity extends AppCompatActivity {
 
     ListView listView;
-    ArrayList<Product> Item =new ArrayList<>();
-    ProductAdapter myAdapter;
+    ArrayList<Product> Item = new ArrayList<>();
+    ProductAdapter productAdapter;
     ProgressDialog loading;
-    TextView store,addr,starttime,endtime,deliveryfee;
+    TextView store, addr, starttime, endtime, deliveryfee;
     RatingBar rating;
     ImageView img;
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class Main2Activity extends AppCompatActivity {
         listView = findViewById(R.id.lv_product_list);
 
         Intent intent = getIntent();
+        final int store_id = Integer.parseInt(intent.getStringExtra("store_id"));
         String store_name = intent.getStringExtra("store_name");
         String address = intent.getStringExtra("store_address");
         int store_rating = Integer.parseInt(intent.getStringExtra("store_rating"));
@@ -68,25 +71,16 @@ public class Main2Activity extends AppCompatActivity {
         endtime.setText(end_time);
         deliveryfee.setText(delivery_fee);
 
-
-        getitems();
-    }
-
-    public void getitems() {
-        String url = "http://localhost:3000/product/list.json";
-        loading = ProgressDialog.show(Main2Activity.this,"Please wait","Getting data from server",false,false);
-        StringRequest request = new StringRequest(Request.Method.GET,url, new Response.Listener<String>()
-        {
+        String url = "http://localhost:3000/provider_product/list.json";
+        loading = ProgressDialog.show(Main2Activity.this, "Please wait", "Getting data from server", false, false);
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
             @Override
-            public void onResponse(String response)
-            {
+            public void onResponse(String response) {
                 loading.dismiss();
-                try
-                {
+                try {
                     JSONArray jsonArray = new JSONArray(response.trim());
-                    for (int i = 0; i < jsonArray.length(); i++)
-                    {
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                         Product product = new Product();
@@ -94,21 +88,16 @@ public class Main2Activity extends AppCompatActivity {
                         product.setProduct_id(jsonObject.optInt("id"));
                         product.setProduct_name(jsonObject.optString("product_name", ""));
                         product.setProduc_barcode(jsonObject.optInt("product_barcode"));
-                        product.setProduct_prize(jsonObject.optInt("product_prize"));
-                        product.setProduct_size(jsonObject.optString("product_size",""));
-                        product.setProduct_type(jsonObject.optString("product_type",""));
-                        product.setProduct_color(jsonObject.optString("product_color",""));
-
+                        product.setProduct_price(jsonObject.optInt("product_price"));
+                        product.setProduct_size(jsonObject.optString("product_weight", ""));
+                        product.setProduct_type(jsonObject.optString("product_type", ""));
 
                         Item.add(product);
                     }
+                    productAdapter = new ProductAdapter(context,R.layout.product,Item);
+                    listView.setAdapter((ListAdapter) productAdapter);
 
-                    myAdapter = new ProductAdapter(Main2Activity.this,R.layout.product,Item);
-                    listView.setAdapter((ListAdapter) myAdapter);
-
-
-                } catch (JSONException e)
-                {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -128,16 +117,20 @@ public class Main2Activity extends AppCompatActivity {
 
 
         })
+
         {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<String, String>();
+                    map.put("id",String.valueOf(store_id));
                 return map;
             }
         };
+
 
         RequestQueue requestQueue = Volley.newRequestQueue(Main2Activity.this);
         requestQueue.add(request);
 
     }
+
 }
