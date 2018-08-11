@@ -1,5 +1,7 @@
 package com.example.muneebahmad.edwbqfgb;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,11 +19,11 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
+import android.content.SharedPreferences;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.Request;
@@ -30,6 +32,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,10 +46,12 @@ public class MainActivity extends AppCompatActivity
     TextView signup;
     String user;
     String pass;
+    ArrayList<User> consumer = new ArrayList<>();
+    ProgressDialog loading;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -79,14 +86,47 @@ public class MainActivity extends AppCompatActivity
             {
                 user = username.getText().toString();
                 pass = password.getText().toString();
+                final SharedPreferences sharedPreferences = getSharedPreferences("logged in",MODE_PRIVATE);
                 String url = "http://localhost:3000/users/userlogin.json";
                 RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+                loading = ProgressDialog.show(MainActivity.this, "Please wait...", "Getting Data From Server ...", false, false);
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Intent intent = new Intent(MainActivity.this,StoreList.class);
-                        startActivity(intent);
+                        loading.dismiss();
+                        try
+                        {
+                            JSONArray jsonArray = new JSONArray(response.trim());
+                            for (int i = 0; i < jsonArray.length(); i++)
+                            {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
 
+                                User userS = new User();
+
+                                userS.setUser_id(jsonObject.optInt("id"));
+                                userS.setUser_email(jsonObject.optString("email", ""));
+                                userS.setUser_first_name(jsonObject.optString("first_name", ""));
+                                userS.setUser_last_name(jsonObject.optString("last_name"));
+                                userS.setUser_name(jsonObject.optString("user_name",""));
+                                userS.setUser_type(jsonObject.optString("user_type",""));
+                                userS.setUser_password(jsonObject.optString("crypted_password",""));
+                                consumer.add(userS);
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("user_id",userS.getUser_id());
+                                editor.apply();
+
+                                if(userS.getUser_type().equals("consumer"))
+                                {
+                                    Intent intent = new Intent(MainActivity.this, StoreList.class);
+                                    startActivity(intent);
+                                }
+                            }
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 }
                         , new Response.ErrorListener() {

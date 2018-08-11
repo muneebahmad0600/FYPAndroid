@@ -14,6 +14,24 @@ public class Store {
     private String delivery_start_time;
     private String delivery_end_time;
     private String delivery_fee;
+    private double store_latitude;
+    private double store_longitude;
+
+    public double getStore_latitude() {
+        return store_latitude;
+    }
+
+    public void setStore_latitude(double store_latitude) {
+        this.store_latitude = store_latitude;
+    }
+
+    public double getStore_longitude() {
+        return store_longitude;
+    }
+
+    public void setStore_longitude(double store_longitude) {
+        this.store_longitude = store_longitude;
+    }
 
     public String getStore_pic() {return store_pic;}
 

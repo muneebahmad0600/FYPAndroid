@@ -72,7 +72,6 @@ public class MyAdapter extends ArrayAdapter
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String store_id,store_name,store_addr,delivery_start,delivery_end,fee,store_rating;
 //                Toast.makeText(context,"position"+position,Toast.LENGTH_SHORT).show();
                 Store store = shop.get(position);

@@ -4,31 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D3D3D3"
     tools:context="com.example.muneebahmad.edwbqfgb.Main2Activity">
 
     <RelativeLayout
         android:id="@+id/storebanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF">
+        android:layout_margin="5dp"
+        android:background="@drawable/round_list_view">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civ_store_logo"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/target_logo" />
 
         <TextView
             android:id="@+id/tv_store_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/civ_store_logo"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/civ_store_logo"
             android:background="@drawable/background"
             android:text="Store Name"
             android:textColor="#000000"
@@ -41,23 +40,22 @@
             android:layout_alignLeft="@+id/tv_store_name"
             android:layout_alignStart="@+id/tv_store_name"
             android:layout_below="@+id/tv_store_name"
-            android:layout_marginTop="3dp"
             android:text="Address" />
 
         <RatingBar
             android:id="@+id/rb_store_rating"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_alignBottom="@+id/civ_store_logo"
+            android:layout_height="40dp"
             android:layout_below="@+id/tv_address"
-            android:layout_marginLeft="105dp"
-            android:layout_marginTop="05dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/civ_store_logo"
             android:isIndicator="true"
+
             android:scaleX=".7"
             android:scaleY=".7"
-            android:transformPivotX="15dp"
-            android:transformPivotY="5dp"
-            />
+            android:transformPivotX="0dp"
+            android:transformPivotY="10dp" />
 
         <TextView
             android:id="@+id/tv_start_time"
@@ -65,17 +63,18 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/rb_store_rating"
             android:layout_marginLeft="20dp"
-            android:textColor="@color/colorPrimary"
-            android:text="Delivery Timing:" />
+            android:layout_marginTop="5dp"
+            android:text="Delivery Timing:"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/tv_end_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/rb_store_rating"
-            android:layout_toRightOf="@id/tv_starttime_value"
             android:layout_marginLeft="5dp"
-            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/tv_starttime_value"
             android:text="to" />
 
         <TextView
@@ -83,41 +82,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rb_store_rating"
-            android:layout_toRightOf="@+id/tv_endtime_value"
             android:layout_marginLeft="20dp"
-            android:textColor="@color/colorPrimary"
-            android:text="Delivery Fees:" />
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/tv_endtime_value"
+            android:text="Delivery Fees:"
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_starttime_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:layout_below="@+id/rb_store_rating"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/tv_start_time"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/colorPrimary"
-            android:text="10AM"/>
+            android:text="10AM" />
 
         <TextView
+            android:id="@+id/tv_endtime_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rb_store_rating"
-            android:layout_toRightOf="@+id/tv_end_time"
             android:layout_marginLeft="5dp"
-            android:id="@+id/tv_endtime_value"
-            android:textColor="@color/colorPrimary"
-            android:text="10PM"/>
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/tv_end_time"
+            android:text="10PM" />
 
         <TextView
             android:id="@+id/tv_fee_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rb_store_rating"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/tv_delivery_fee"
-            android:layout_marginLeft="10dp"
-            android:text="PKR 500"
-            android:textColor="@color/colorPrimary"/>
+            android:text="500" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -132,6 +132,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:paddingLeft="10dp"
+        android:divider="@null"
         android:layout_marginTop="10dp"/>
     </RelativeLayout>
 

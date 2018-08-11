@@ -51,15 +51,16 @@ public class ProductAdapter extends ArrayAdapter {
         imageView = v.findViewById(R.id.iv_product_image);
         name = v.findViewById(R.id.tv_product_name);
         category = v.findViewById(R.id.tv_product_category);
-        price = v.findViewById(R.id.tv_product_prize);
+        price = v.findViewById(R.id.tv_price);
 
 
         Product product = item.get(position);
 
-        imageView.setImageResource(R.drawable.target_logo);
+//        imageView.setImageResource(R.drawable.shopping_cart);
         name.setText(product.getProduct_name());
         category.setText(product.getProduct_type());
-        price.setText(product.getProduct_price());
+        String str_price = String.valueOf(product.getProduct_price());
+        price.setText(str_price);
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override

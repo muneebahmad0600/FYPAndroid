@@ -73,7 +73,7 @@ public class Main2Activity extends AppCompatActivity {
 
         String url = "http://localhost:3000/provider_product/list.json";
         loading = ProgressDialog.show(Main2Activity.this, "Please wait", "Getting data from server", false, false);
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

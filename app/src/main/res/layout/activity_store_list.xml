@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:layout_gravity="center"
+    android:background="@color/lightgrey"
     android:clipToPadding="false"
     tools:context="com.example.muneebahmad.edwbqfgb.StoreList">
 
@@ -13,7 +14,7 @@
         android:id="@+id/lv_store_list"
         tools:listitem="@layout/row"
         android:layout_width="match_parent"
-        android:elevation="30dp"
+        android:divider="@null"
         android:layout_height="match_parent" />
 
 </RelativeLayout>
