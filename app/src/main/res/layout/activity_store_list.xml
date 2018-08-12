@@ -11,6 +11,7 @@
     tools:context="com.example.muneebahmad.edwbqfgb.StoreList">
 
     <ListView
+        android:layout_marginTop="5dp"
         android:id="@+id/lv_store_list"
         tools:listitem="@layout/row"
         android:layout_width="match_parent"

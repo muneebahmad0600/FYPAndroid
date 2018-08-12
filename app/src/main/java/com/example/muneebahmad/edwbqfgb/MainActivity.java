@@ -1,11 +1,20 @@
 package com.example.muneebahmad.edwbqfgb;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,14 +25,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import android.content.SharedPreferences;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.Request;
@@ -32,6 +44,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,11 +56,14 @@ public class MainActivity extends AppCompatActivity
     EditText username;
     EditText password;
     Button login;
-    TextView signup;
+    TextView signup,long1,lat1;
     String user;
     String pass;
     ArrayList<User> consumer = new ArrayList<>();
     ProgressDialog loading;
+    double longitude , latitude;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
 
 
     @Override
@@ -61,10 +77,11 @@ public class MainActivity extends AppCompatActivity
         password = findViewById(R.id.et_password);
         login = findViewById(R.id.btn_login);
         signup = findViewById(R.id.tv_signup);
+        long1 = findViewById(R.id.longitude);
+        lat1 = findViewById(R.id.latitude);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -79,11 +96,10 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        login.setOnClickListener(new View.OnClickListener()
-        {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
+                getlocation();
                 user = username.getText().toString();
                 pass = password.getText().toString();
                 final SharedPreferences sharedPreferences = getSharedPreferences("logged in",MODE_PRIVATE);
@@ -119,6 +135,8 @@ public class MainActivity extends AppCompatActivity
                                 if(userS.getUser_type().equals("consumer"))
                                 {
                                     Intent intent = new Intent(MainActivity.this, StoreList.class);
+                                    intent.putExtra("longitude",longitude);
+                                    intent.putExtra("latitude",latitude);
                                     startActivity(intent);
                                 }
                             }
@@ -151,9 +169,55 @@ public class MainActivity extends AppCompatActivity
                 };
                 requestQueue.add(stringRequest);
             }
-
-
         });
+    }
+
+    void getlocation (){
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        };
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.INTERNET},10);
+        }
+        else{
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            long1.setText(String.valueOf(longitude));
+            lat1.setText(String.valueOf(latitude));
+            Toast.makeText(MainActivity.this,"Location set",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 10:
+                if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                    long1.setText(String.valueOf(longitude));
+                    lat1.setText(String.valueOf(latitude));
+                    Toast.makeText(MainActivity.this,"Location set",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

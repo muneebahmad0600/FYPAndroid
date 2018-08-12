@@ -11,8 +11,9 @@ import android.widget.TextView;
 public class SingleProductLayout extends AppCompatActivity {
 
     String product_id,product_name,product_barcode,product_price,product_weight,product_type;
+    int quantity = 0;
     ImageView product_image;
-    TextView name,price,weight,category;
+    TextView name,price,weight,category,order;
     Button minus_quantity,plus_quantity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class SingleProductLayout extends AppCompatActivity {
         category = findViewById(R.id.tv_product_category);
         minus_quantity = findViewById(R.id.btn_quantity_minus);
         plus_quantity = findViewById(R.id.btn_quantity_plus);
+        order = findViewById(R.id.tv_quantity);
 
         name.setText(product_name);
         price.setText(product_price);
@@ -42,15 +44,24 @@ public class SingleProductLayout extends AppCompatActivity {
         minus_quantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                quantity = quantity-1;
+                if(quantity <= 0 ){ order.setText("ADD TO CART"); }
+                else order.setText(String.valueOf(quantity));
             }
         });
 
         plus_quantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                quantity = quantity +1;
+                order.setText(String.valueOf(quantity));
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

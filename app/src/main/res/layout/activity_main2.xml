@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightgrey"
+    android:orientation="vertical"
+    android:layout_gravity="top"
     tools:context="com.example.muneebahmad.edwbqfgb.Main2Activity">
 
     <RelativeLayout
@@ -15,8 +18,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civ_store_logo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/target_logo" />
@@ -48,14 +51,12 @@
             android:layout_height="40dp"
             android:layout_below="@+id/tv_address"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/civ_store_logo"
             android:isIndicator="true"
-
-            android:scaleX=".7"
-            android:scaleY=".7"
+            android:scaleX=".65"
+            android:scaleY=".65"
             android:transformPivotX="0dp"
-            android:transformPivotY="10dp" />
+            android:transformPivotY="0dp" />
 
         <TextView
             android:id="@+id/tv_start_time"
@@ -121,19 +122,60 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/list_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="350dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_below="@+id/storebanner">
-    <ListView
+        <ListView
         android:id="@+id/lv_product_list"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        tools:listitem="@layout/product"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingLeft="10dp"
-        android:divider="@null"
-        android:layout_marginTop="10dp"/>
+        android:layout_height="360dp"
+        tools:listitem="@layout/product" />
     </RelativeLayout>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/checkout"
+        android:background="#ffff"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="bottom"
+        android:layout_below="@+id/list_view">
+
+        <TextView
+            android:id="@+id/tv_PKR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total :"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PKR 000.00"
+            android:layout_toRightOf="@+id/tv_PKR"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/tv_total"
+            android:text="  Checkout  "
+            android:textSize="20sp"
+            android:background="@drawable/round_list_view"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:paddingTop="12dp"
+            android:layout_marginLeft="80dp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
