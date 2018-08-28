@@ -1,6 +1,8 @@
 package com.example.muneebahmad.edwbqfgb;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
 import android.app.Activity;
 import android.content.Context;
@@ -15,34 +17,37 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
-
 import android.widget.RatingBar;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import static android.content.Context.MODE_PRIVATE;
+
 public class ProductAdapter extends ArrayAdapter {
 
     private ImageView imageView;
     private TextView name,category,price;
     Context context;
-    int resource;
+    int resource,store_id;
     ArrayList<Product> item;
     LayoutInflater layoutInflater;
 
-
-    public ProductAdapter(@NonNull Context context, int resource, ArrayList<Product> Item) {
+    public ProductAdapter(@NonNull Context context, int resource, ArrayList<Product> Item,int store_id) {
         super(context, resource);
 
         this.context = context;
         this.resource = resource;
         this.item = Item;
+        this.store_id = store_id;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     @Override
     public int getCount() {return item.size();}
-
 
     @NonNull
     @Override
@@ -59,8 +64,7 @@ public class ProductAdapter extends ArrayAdapter {
 //        imageView.setImageResource(R.drawable.shopping_cart);
         name.setText(product.getProduct_name());
         category.setText(product.getProduct_type());
-        String str_price = String.valueOf(product.getProduct_price());
-        price.setText(str_price);
+        price.setText(String.valueOf(product.getProduct_price()));
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,10 +72,10 @@ public class ProductAdapter extends ArrayAdapter {
 
 //              Toast.makeText(context,"position"+position,Toast.LENGTH_SHORT).show();
                 Product product = item.get(position);
-                String product_id = String.valueOf(product.getProduct_id());
+                int product_id = product.getProduct_id();
                 String product_name = product.getProduct_name();
-                String product_barcode = String.valueOf(product.getProduc_barcode());
-                String poduct_price = String.valueOf(product.getProduct_price());
+                int product_barcode = product.getProduc_barcode();
+                int poduct_price = product.getProduct_price();
                 String poduct_weight = product.getProduct_size();
                 String poduct_type = product.getProduct_type();
 
@@ -82,7 +86,6 @@ public class ProductAdapter extends ArrayAdapter {
                 intent.putExtra("product_price",poduct_price);
                 intent.putExtra("product_weight",poduct_weight);
                 intent.putExtra("product_type",poduct_type);
-
                 context.startActivity(intent);
             }
         });

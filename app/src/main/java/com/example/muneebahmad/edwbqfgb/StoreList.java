@@ -42,19 +42,37 @@ public class StoreList extends AppCompatActivity
     final ArrayList<Store> shop = new ArrayList<>();
     MyAdapter myAdapter;
     ProgressDialog loading;
-    double longitude , latitude ;
-    private Context context = this;
+    double longitude = 74.4188484 , latitude = 31.5742809;
+    int user_id;
+    LocationManager locationManager ;
+    LocationListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_list);
         listView = findViewById(R.id.lv_store_list);
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+                    1);
+        }
+        locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+            }
 
-        Intent intent = getIntent();
-        longitude = intent.getDoubleExtra("longitude",74.4188484);
-        latitude = intent.getDoubleExtra("latitude",31.5742809);
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
 
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        locationManager.removeUpdates(locationListener);
         String Url = "http://localhost:3000/provider/list.json";
             loading = ProgressDialog.show(StoreList.this, "Please wait...", "Getting Data From Server ...", false, false);
             StringRequest request = new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
@@ -112,6 +130,19 @@ public class StoreList extends AppCompatActivity
 
             RequestQueue requestQueue = Volley.newRequestQueue(StoreList.this);
             requestQueue.add(request);
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // All good!
+                } else {
+                    Toast.makeText(this, "Need your location!", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+        }
     }
     private static double distance_in_meter ( double lat1, double lon1, double lat2, double lon2)
     {

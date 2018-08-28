@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -25,7 +26,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,14 +56,12 @@ public class MainActivity extends AppCompatActivity
     EditText username;
     EditText password;
     Button login;
-    TextView signup,long1,lat1;
+    TextView signup;
     String user;
     String pass;
     ArrayList<User> consumer = new ArrayList<>();
     ProgressDialog loading;
-    double longitude , latitude;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
+    SharedPreferences sharedPreferences;
 
 
     @Override
@@ -77,8 +75,6 @@ public class MainActivity extends AppCompatActivity
         password = findViewById(R.id.et_password);
         login = findViewById(R.id.btn_login);
         signup = findViewById(R.id.tv_signup);
-        long1 = findViewById(R.id.longitude);
-        lat1 = findViewById(R.id.latitude);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -99,10 +95,8 @@ public class MainActivity extends AppCompatActivity
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getlocation();
                 user = username.getText().toString();
                 pass = password.getText().toString();
-                final SharedPreferences sharedPreferences = getSharedPreferences("logged in",MODE_PRIVATE);
                 String url = "http://localhost:3000/users/userlogin.json";
                 RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
                 loading = ProgressDialog.show(MainActivity.this, "Please wait...", "Getting Data From Server ...", false, false);
@@ -112,22 +106,21 @@ public class MainActivity extends AppCompatActivity
                         loading.dismiss();
                         try
                         {
-                            JSONArray jsonArray = new JSONArray(response.trim());
-                            for (int i = 0; i < jsonArray.length(); i++)
-                            {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                JSONObject jsonObject = new JSONObject(response.trim());
+                                JSONObject con = jsonObject.getJSONObject("user");
 
                                 User userS = new User();
+                                userS.setUser_id(con.optInt("id"));
+                                userS.setUser_email(con.optString("email", ""));
+                                userS.setUser_first_name(con.optString("first_name", ""));
+                                userS.setUser_last_name(con.optString("last_name"));
+                                userS.setUser_name(con.optString("user_name", ""));
+                                userS.setUser_type(con.optString("user_type", ""));
+                                userS.setUser_password(con.optString("crypted_password", ""));
+                                userS.setProvider_id(con.optInt("provider_id"));
 
-                                userS.setUser_id(jsonObject.optInt("id"));
-                                userS.setUser_email(jsonObject.optString("email", ""));
-                                userS.setUser_first_name(jsonObject.optString("first_name", ""));
-                                userS.setUser_last_name(jsonObject.optString("last_name"));
-                                userS.setUser_name(jsonObject.optString("user_name",""));
-                                userS.setUser_type(jsonObject.optString("user_type",""));
-                                userS.setUser_password(jsonObject.optString("crypted_password",""));
-                                consumer.add(userS);
 
+                            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putInt("user_id",userS.getUser_id());
                                 editor.apply();
@@ -135,11 +128,13 @@ public class MainActivity extends AppCompatActivity
                                 if(userS.getUser_type().equals("consumer"))
                                 {
                                     Intent intent = new Intent(MainActivity.this, StoreList.class);
-                                    intent.putExtra("longitude",longitude);
-                                    intent.putExtra("latitude",latitude);
                                     startActivity(intent);
                                 }
-                            }
+                                else if(userS.getUser_type().equals("provider")){
+                                    Intent intent = new Intent(MainActivity.this, Provider.class);
+                                    intent.putExtra("provider_id",userS.getProvider_id());
+                                    startActivity(intent);
+                                }
                         }
                         catch (JSONException e)
                         {
@@ -150,8 +145,14 @@ public class MainActivity extends AppCompatActivity
                         , new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        loading.dismiss();
                         String message = null;
                         if (error instanceof NetworkError) {
+                            message = "Cannot connect to the server...Please check your connection!";
+                            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            loading.dismiss();
                             message = "Incorrect user name or password...";
                             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                         }
@@ -170,54 +171,6 @@ public class MainActivity extends AppCompatActivity
                 requestQueue.add(stringRequest);
             }
         });
-    }
-
-    void getlocation (){
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                longitude = location.getLongitude();
-                latitude = location.getLatitude();
-
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
-        };
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.INTERNET},10);
-        }
-        else{
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            long1.setText(String.valueOf(longitude));
-            lat1.setText(String.valueOf(latitude));
-            Toast.makeText(MainActivity.this,"Location set",Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case 10:
-                if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-                    long1.setText(String.valueOf(longitude));
-                    lat1.setText(String.valueOf(latitude));
-                    Toast.makeText(MainActivity.this,"Location set",Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override

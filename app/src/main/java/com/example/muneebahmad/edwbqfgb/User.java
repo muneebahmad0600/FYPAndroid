@@ -9,6 +9,16 @@ public class User {
     String user_name;
     String user_type;
 
+    public int getProvider_id() {
+        return provider_id;
+    }
+
+    public void setProvider_id(int provider_id) {
+        this.provider_id = provider_id;
+    }
+
+    int provider_id;
+
     public int getUser_id() { return user_id; }
 
     public void setUser_id(int user_id) { this.user_id = user_id; }

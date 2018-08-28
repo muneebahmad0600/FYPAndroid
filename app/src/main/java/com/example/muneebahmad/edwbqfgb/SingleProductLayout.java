@@ -8,10 +8,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class SingleProductLayout extends AppCompatActivity {
 
-    String product_id,product_name,product_barcode,product_price,product_weight,product_type;
-    int quantity = 0;
+    String product_name,product_weight,product_type;
+    int product_id,product_barcode,product_price;
     ImageView product_image;
     TextView name,price,weight,category,order;
     Button minus_quantity,plus_quantity;
@@ -21,10 +24,10 @@ public class SingleProductLayout extends AppCompatActivity {
         setContentView(R.layout.activity_single_product_layout);
 
         Intent intent = getIntent();
-        product_id = intent.getStringExtra("product_id");
+        product_id = intent.getIntExtra("product_id",0);
         product_name = intent.getStringExtra("product_name");
-        product_barcode = intent.getStringExtra("product_barcode");
-        product_price = intent.getStringExtra("product_price");
+        product_barcode = intent.getIntExtra("product_barcode",0);
+        product_price = intent.getIntExtra("product_price",0);
         product_weight = intent.getStringExtra("product_weight");
         product_type = intent.getStringExtra("product_type");
 
@@ -36,32 +39,35 @@ public class SingleProductLayout extends AppCompatActivity {
         minus_quantity = findViewById(R.id.btn_quantity_minus);
         plus_quantity = findViewById(R.id.btn_quantity_plus);
         order = findViewById(R.id.tv_quantity);
+        setQuantity();
 
         name.setText(product_name);
-        price.setText(product_price);
+        price.setText("PKR " + String.valueOf(product_price));
         weight.setText(product_weight);
         category.setText(product_type);
         minus_quantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                quantity = quantity-1;
-                if(quantity <= 0 ){ order.setText("ADD TO CART"); }
-                else order.setText(String.valueOf(quantity));
-            }
+                Order.getInstance().decrementQuantity(product_id);
+                setQuantity();
+                }
         });
 
         plus_quantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                quantity = quantity +1;
-                order.setText(String.valueOf(quantity));
+                Order.getInstance().addOrIncrement(product_id);
+                setQuantity();
             }
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+    private void setQuantity() {
+        int quantity = Order.getInstance().getQuantity(product_id);
+        if(quantity > 0 ) {
+            order.setText(String.valueOf(quantity));
+        }else {
+            order.setText("ADD TO CART");
+        }
     }
 }
